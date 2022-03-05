@@ -21,7 +21,7 @@ key_notes = [{"key": "A", "key_display": "A"},
              {"key": "G", "key_display": "G"},
              {"key": "G#", "key_display": "G♯ / A♭"}]
 notes = [d["key"] for d in key_notes]
-inlay_frets = [0, 3, 5, 7, 9, 12, 15, 17, 19, 21]
+inlay_frets = [3, 5, 7, 9, 12, 15, 17, 19, 21]
 
 
 class FretBoard:
@@ -102,7 +102,8 @@ class FretBoard:
             # string_tab = '<span class="string-tab"></span>'
             classes = ' fret-' + str(fret)
 
-        if fret in inlay_frets:
+        # frets were off by one, probably should make fret start at 1 instead of 0
+        if fret + 1  in inlay_frets:
             classes = classes + ' inlay'
             is_inlay = True
 
