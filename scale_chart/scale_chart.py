@@ -103,8 +103,6 @@ class FretBoard:
         is_inlay = False
 
         if note in scale:
-            # I wanted the root note to be a different character
-            # TODO refactor to remove duplicate code below
             if note == scale[0]:
                 # string_tab = (self.empty_tab * (math.trunc(self.fret_width / 2))) + self.root_tab + (
                 #             self.empty_tab * (math.trunc(self.fret_width / 2)))
@@ -166,5 +164,5 @@ class FretBoard:
         # self.add_inlay_markers()
 
         # draw neck
-        print(*[str(v) for k, v in self.neck.items()], sep='\n')
+        #print(*[str(v) for k, v in self.neck.items()], sep='\n')
         return self.neck
