@@ -72,7 +72,7 @@ class FretBoard:
                 # add to string
                 string_so_far = self.neck[string]
                 updated_neck = string_so_far + self.create_string_tab(current_fret, current_note)
-                #+ self.fret
+                # + self.fret
                 self.neck[string] = updated_neck
 
             current_fret += 1
@@ -88,23 +88,23 @@ class FretBoard:
                 # string_tab = (self.empty_tab * (math.trunc(self.fret_width / 2))) + self.root_tab + (
                 #             self.empty_tab * (math.trunc(self.fret_width / 2)))
                 # string_tab = '<span class="string-tab root note"></span>'
-                classes = ' root note fret-' + str(fret)
+                # classes = ' root note fret-' + str(fret)
                 is_note = True
                 is_root = True
             else:
                 # string_tab = (self.empty_tab * (math.trunc(self.fret_width / 2))) + self.note_tab + (
                 #             self.empty_tab * (math.trunc(self.fret_width / 2)))
                 # string_tab = '<span class="string-tab note"></span>'
-                classes = ' note fret-' + str(fret)
+                # classes = ' note fret-' + str(fret)
                 is_note = True
-        else:
+        # else:
             # # string_tab = self.empty_tab * self.fret_width
             # string_tab = '<span class="string-tab"></span>'
-            classes = ' fret-' + str(fret)
+            # classes = ' fret-' + str(fret)
 
         # frets were off by one, probably should make fret start at 1 instead of 0
-        if fret + 1  in inlay_frets:
-            classes = classes + ' inlay'
+        if fret + 1 in inlay_frets:
+            # classes = classes + ' inlay'
             is_inlay = True
 
         return self.get_string_tab_html(note, is_note, is_root, is_inlay)
@@ -144,10 +144,10 @@ class FretBoard:
         html = '<span class="string-tuning'
         if note in self.scale:
             html = html + ' note'
-            #return '<span class="string-tuning note root">' + note + '</span>'
+            # return '<span class="string-tuning note root">' + note + '</span>'
         if note == self.scale[0]:
             html = html + ' root'
-            #return '<span class="string-tuning note">' + note + '</span>'
+            # return '<span class="string-tuning note">' + note + '</span>'
         html = html + '">'
 
         if note in self.scale:
@@ -187,5 +187,5 @@ class FretBoard:
         # self.add_inlay_markers()
 
         # TODO make this logging
-        #print(*[str(v) for k, v in self.neck.items()], sep='\n')
+        # print(*[str(v) for k, v in self.neck.items()], sep='\n')
         return self.neck
