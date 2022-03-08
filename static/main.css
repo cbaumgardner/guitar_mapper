@@ -1,5 +1,5 @@
 html {
-    height: 100%;
+    height: 100vh;
     padding: env(safe-area-inset); /* fill IPhone notch */
     /*background: linear-gradient(0deg, rgb(100 150 150 / 50%), rgb(40 130 100 / 70%));
     background-repeat: no-repeat;*/
@@ -18,11 +18,17 @@ body {
 
 form {
     display: inline-block;
-    font-size: .8vw;
+    font-size: calc(12px + 1vw);
+}
+@media screen and (min-width: 1800px) {
+    form {
+    display: inline-block;
+    font-size: 25px;
+    }
 }
 
 .title {
-    font-size: 2vw;
+    font-size: calc(12px + 2vw);
 }
 
 .fretboard {
@@ -201,7 +207,7 @@ span.string-tab.note.root .note-indicator {
     display: inline-flex;
     fill: currentcolor;
     font-family: Verdana, sans-serif;
-    font-size: 1vw;
+    /*font-size: 1vw;*/
     font-weight: 500;
     height: 3vw;
     justify-content: center;
@@ -209,6 +215,7 @@ span.string-tab.note.root .note-indicator {
     line-height: normal;
     max-width: 100px;
     max-height: 50px;
+    min-height: 30px;
     overflow: visible;
     padding: 2px 24px;
     position: relative;
