@@ -3,11 +3,15 @@ import math
 # These should probably go in a config file or something
 scale_types = [{"type": "Major (Ionian)", "scale_steps": [2, 2, 1, 2, 2, 2, 1]},
                {"type": "Minor (Aeolian)", "scale_steps": [2, 1, 2, 2, 1, 2, 2]},
+               {"type": "Major Pentatonic", "scale_steps": [2, 2, 3, 2, 3]},
+               {"type": "Minor Pentatonic", "scale_steps": [3, 2, 2, 3, 2]},
                {"type": "Dorian", "scale_steps": [2, 1, 2, 2, 2, 1, 2]},
                {"type": "Phrygian", "scale_steps": [1, 2, 2, 2, 1, 2, 2]},
                {"type": "Lydian", "scale_steps": [2, 2, 2, 1, 2, 2, 1]},
                {"type": "Mixolydian", "scale_steps": [2, 2, 1, 2, 2, 1, 2]},
-               {"type": "Locrian", "scale_steps": [1, 2, 2, 1, 2, 2, 2]}]
+               {"type": "Locrian", "scale_steps": [1, 2, 2, 1, 2, 2, 2]},
+               {"type": "Major Pentatonic", "scale_steps": [2, 2, 2, 2, 2]},
+               {"type": "Minor Pentatonic", "scale_steps": [2, 2, 2, 2, 2]}]
 key_notes = [{"key": "A", "key_display": "A"},
              {"key": "A#", "key_display": "A♯ / B♭"},
              {"key": "B", "key_display": "B"},
