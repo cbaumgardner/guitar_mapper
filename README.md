@@ -1,7 +1,7 @@
 # Scale Chart
 
 
-scale-chart.com
+www.scale-chart.com
 
 
 
