@@ -1,6 +1,10 @@
 # Scale Chart
 
 
+scale-chart.com
+
+
+
 Steps to run (assuming you have Docker already installed)
 
 1) Clone this repo
