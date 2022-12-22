@@ -5,7 +5,7 @@ www.scale-chart.com
 
 
 
-Steps to run (assuming you have Docker already installed)
+## Steps to run locally (assuming you have Docker already installed)
 
 1) Clone this repo
 2) Build the image by running ``docker build -t scale_chart_image .`` in this directory
@@ -13,6 +13,12 @@ Steps to run (assuming you have Docker already installed)
 4) Open a browser and go to http://localhost:4545/
 5) To restart the container run docker_restart.py
 
+## Deployment
 
-Note: When building an image for linux from a machine with an Apple chip run the following:
-``docker buildx build --platform=linux/amd64 -t scale_chart_linux .``
+1) Build image. When building an image for linux from a machine with an Apple chip, run the following:
+
+  ``docker buildx build --platform=linux/amd64 -t scale_chart_linux .``
+
+2) Push to Lightsail.
+
+``aws lightsail push-container-image --region us-east-1 --service-name scale-chart --label scale-chart --image scale_chart_linux:latest``
