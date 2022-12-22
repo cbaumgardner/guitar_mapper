@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
-from scale_chart import FretBoard, scale_types, key_notes
+from scale_chart import FretBoard, ScaleChartConfig
 
 
 def create_app():
+    config = ScaleChartConfig()
     app = Flask(__name__)
 
     @app.route("/", methods=["POST", "GET"])
@@ -16,8 +17,8 @@ def create_app():
         else:
             fretboard = FretBoard()
         return render_template("index.html",
-                               key_note_data=key_notes,
-                               scale_type_data=scale_types,
+                               key_note_data=config.key_notes,
+                               scale_type_data=config.scale_types,
                                string=fretboard.draw_neck(),
                                state=state)
 

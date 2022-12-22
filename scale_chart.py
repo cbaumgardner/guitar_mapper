@@ -1,30 +1,67 @@
 import math
-from typing import dict, List
+from typing import Dict, List, NewType, Union, Optional
 
-# Configuration for the UI display.
-scale_types = [{"type": "Major (Ionian)", "scale_steps": [2, 2, 1, 2, 2, 2, 1]},
-               {"type": "Minor (Aeolian)", "scale_steps": [2, 1, 2, 2, 1, 2, 2]},
-               {"type": "Major Pentatonic", "scale_steps": [2, 2, 3, 2, 3]},
-               {"type": "Minor Pentatonic", "scale_steps": [3, 2, 2, 3, 2]},
-               {"type": "Dorian", "scale_steps": [2, 1, 2, 2, 2, 1, 2]},
-               {"type": "Phrygian", "scale_steps": [1, 2, 2, 2, 1, 2, 2]},
-               {"type": "Lydian", "scale_steps": [2, 2, 2, 1, 2, 2, 1]},
-               {"type": "Mixolydian", "scale_steps": [2, 2, 1, 2, 2, 1, 2]},
-               {"type": "Locrian", "scale_steps": [1, 2, 2, 1, 2, 2, 2]}]
-key_notes = [{"key": "A", "key_display": "A"},
-             {"key": "A#", "key_display": "A♯ / B♭"},
-             {"key": "B", "key_display": "B"},
-             {"key": "C", "key_display": "C"},
-             {"key": "C#", "key_display": "C♯ / D♭"},
-             {"key": "D", "key_display": "D"},
-             {"key": "D#", "key_display": "D♯ / E♭"},
-             {"key": "E", "key_display": "E"},
-             {"key": "F", "key_display": "F"},
-             {"key": "F#", "key_display": "F♯ / G♭"},
-             {"key": "G", "key_display": "G"},
-             {"key": "G#", "key_display": "G♯ / A♭"}]
-notes = [d["key"] for d in key_notes]
-inlay_frets = [3, 5, 7, 9, 12, 15, 17, 19, 21]
+# Type alias
+ScaleTypes = NewType('ScaleTypes', List[Dict[str, Union[str, List[int]]]])
+KeyNotes = NewType('KeyNotes', List[Dict[str, str]])
+
+class ScaleChartConfig:
+    def __init__(self):
+        self.scale_types: ScaleTypes = [{"type": "Major (Ionian)", "scale_steps": [2, 2, 1, 2, 2, 2, 1]},
+                    {"type": "Minor (Aeolian)", "scale_steps": [2, 1, 2, 2, 1, 2, 2]},
+                    {"type": "Major Pentatonic", "scale_steps": [2, 2, 3, 2, 3]},
+                    {"type": "Minor Pentatonic", "scale_steps": [3, 2, 2, 3, 2]},
+                    {"type": "Dorian", "scale_steps": [2, 1, 2, 2, 2, 1, 2]},
+                    {"type": "Phrygian", "scale_steps": [1, 2, 2, 2, 1, 2, 2]},
+                    {"type": "Lydian", "scale_steps": [2, 2, 2, 1, 2, 2, 1]},
+                    {"type": "Mixolydian", "scale_steps": [2, 2, 1, 2, 2, 1, 2]},
+                    {"type": "Locrian", "scale_steps": [1, 2, 2, 1, 2, 2, 2]}]
+        self.key_notes: KeyNotes = [{"key": "A", "key_display": "A"},
+                    {"key": "A#", "key_display": "A♯ / B♭"},
+                    {"key": "B", "key_display": "B"},
+                    {"key": "C", "key_display": "C"},
+                    {"key": "C#", "key_display": "C♯ / D♭"},
+                    {"key": "D", "key_display": "D"},
+                    {"key": "D#", "key_display": "D♯ / E♭"},
+                    {"key": "E", "key_display": "E"},
+                    {"key": "F", "key_display": "F"},
+                    {"key": "F#", "key_display": "F♯ / G♭"},
+                    {"key": "G", "key_display": "G"},
+                    {"key": "G#", "key_display": "G♯ / A♭"}]
+        self.notes: List[str] = [d["key"] for d in self.key_notes]
+        self.inlay_frets: List[int] = [3, 5, 7, 9, 12, 15, 17, 19, 21]
+
+    @property
+    def scale_types(self) -> ScaleTypes:
+        return self._scale_types
+
+    @scale_types.setter
+    def scale_types(self, value: KeyNotes):
+        self._scale_types = value
+
+    @property
+    def key_notes(self) -> KeyNotes:
+        return self._key_notes
+
+    @key_notes.setter
+    def key_notes(self, value: KeyNotes):
+        self._key_notes = value
+
+    @property
+    def notes(self) -> List[str]:
+        return self._notes
+
+    @notes.setter
+    def notes(self, value: List[str]):
+        self._notes = value
+
+    @property
+    def inlay_frets(self) -> List[int]:
+        return self._inlay_frets
+
+    @inlay_frets.setter
+    def inlay_frets(self, value: List[int]):
+        self._inlay_frets = value
 
 
 class FretBoard:
@@ -34,8 +71,8 @@ class FretBoard:
         Exception: If the given key_note is not a recognized note in key_notes.
 
     """
-    # TODO change scale_types to use id, maybe put in database
-    def __init__(self, key_note: str="A", scale_type: str="Major (Ionian)", fret_num: int=22):
+    def __init__(self, key_note: Optional[str]=None, scale_type: Optional[str]=None, fret_num: int=22):
+        self.config = ScaleChartConfig()
         self.fret_num = fret_num
         self.fret_width = 7
         self.tuning = {
@@ -55,14 +92,19 @@ class FretBoard:
             6: ""
         }
         self.scale = []
-        self.scale_type = scale_type
+        if scale_type is None:
+            self.scale_type = self.config.scale_types[0]["type"]
+        else: 
+            self.scale_type = scale_type
 
-        if key_note in notes:
+        if key_note is None:
+            self.key_note = self.config.notes[0]
+        elif key_note in self.config.notes:
             self.key_note = key_note
         else:
             raise Exception("Invalid root note")
 
-    def draw_neck(self) -> dict[int, str]:
+    def draw_neck(self) -> Dict[int, str]:
         """Renders HTML for each string on the guitar neck.
 
         Returns:
@@ -79,9 +121,9 @@ class FretBoard:
             for string in self.neck:
                 # determine current note
                 open_note = self.tuning[string]
-                open_note_index = notes.index(open_note)
-                current_note = notes[(open_note_index + current_fret + 1
-                                      ) % len(notes)]
+                open_note_index = self.config.notes.index(open_note)
+                current_note = self.config.notes[(open_note_index + current_fret + 1
+                                      ) % len(self.config.notes)]
 
                 # add to string
                 string_so_far = self.neck[string]
@@ -112,7 +154,7 @@ class FretBoard:
                 is_root = True
             else:
                 is_note = True
-        if fret + 1 in inlay_frets:
+        if fret + 1 in self.config.inlay_frets:
             is_inlay = True
 
         return self._get_string_tab_html(note, is_note, is_root, is_inlay)
@@ -124,16 +166,16 @@ class FretBoard:
             List[str]: List of notes in the scale.
         """
 
-        scale_dict = [x for x in scale_types if x["type"] == self.scale_type][0]
+        scale_dict = [x for x in self.config.scale_types if x["type"] == self.scale_type][0]
         scale_steps = scale_dict["scale_steps"]
 
         scale = [self.key_note]
 
         i = 0
         while i < len(scale_steps):
-            current_note_index = notes.index(scale[i])
+            current_note_index = self.config.notes.index(scale[i])
             next_step = scale_steps[i]
-            next_note = notes[(current_note_index + next_step) % len(notes)]
+            next_note = self.config.notes[(current_note_index + next_step) % len(self.config.notes)]
             scale.append(next_note)
             i += 1
 
@@ -143,7 +185,7 @@ class FretBoard:
         """ Adds bullets below inlay frets (not currently used)."""
 
         inlay_list = ["&nbsp;"] * ((self.fret_width * self.fret_num) + (self.fret_num + 1))
-        for inlay in inlay_frets:
+        for inlay in self.config.inlay_frets:
             position = math.trunc(self.fret_width * (inlay - 0.5)) + inlay
             inlay_list[position] = "&bull;"
         inlay_markers = "".join(inlay_list)
@@ -177,7 +219,7 @@ class FretBoard:
         return html
 
     @staticmethod
-    def _get_string_tab_html(note: str, is_note: bool, is_root: bool, is_inlay: bool):
+    def _get_string_tab_html(note: str, is_note: bool, is_root: bool, is_inlay: bool) -> str:
         """Builds HTML for a fret position on one of the guitar's strings.
 
         Args:
