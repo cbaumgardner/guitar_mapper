@@ -3,6 +3,7 @@
 
 www.scale-chart.com
 
+> Caveat: I'm a data engineer and not a front end developer, so lower your expectations.
 
 
 ## Steps to run locally (assuming you have Docker already installed)
