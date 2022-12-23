@@ -1,6 +1,8 @@
+import logging
 from flask import Flask, render_template, request
 from scale_chart import FretBoard, ScaleChartConfig
 
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 def create_app():
     config = ScaleChartConfig()
@@ -16,6 +18,7 @@ def create_app():
             fretboard = FretBoard(key_note=key_note_input, scale_type=scale_type_input)
         else:
             fretboard = FretBoard()
+        logging.info(f"{request.method} - Rendering for {fretboard.key_note} {fretboard.scale_type}")
         return render_template("index.html",
                                key_note_data=config.key_notes,
                                scale_type_data=config.scale_types,
