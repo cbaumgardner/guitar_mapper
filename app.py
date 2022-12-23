@@ -18,7 +18,9 @@ def create_app():
             fretboard = FretBoard(key_note=key_note_input, scale_type=scale_type_input)
         else:
             fretboard = FretBoard()
-        logging.info(f"{request.method} - Rendering for {fretboard.key_note} {fretboard.scale_type}")
+        # Only log if non-default values chosen
+        if fretboard.key_note != config.notes[0] and fretboard.scale_type != config.scale_types[0]["type"]:
+            logging.info(f"{request.method} - Rendering for {fretboard.key_note} {fretboard.scale_type}")
         return render_template("index.html",
                                key_note_data=config.key_notes,
                                scale_type_data=config.scale_types,
