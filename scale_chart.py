@@ -67,6 +67,16 @@ class ScaleChartConfig:
 class FretBoard:
     """Representation of a guitar neck used to render scale-chart.com
 
+    Attributes:
+        config (ScaleChartConfig): Configuration settings from ScaleChartConfig.
+        fret_num (int): Number of frets to draw. Default to 22.
+        fret_width (int): How many characters wide a fret is. Defaults to 7.
+        tuning (dict[int, str]): Defaults to standard (EADGBE).
+        neck (dict[int, str]): Dictionary that holds the HTML for each string.
+        scale (list[str]): List of notes in the scale.
+        scale_type (str): Name of the type of scale.
+        key_note (str): Root note for the scale.
+
     Raises:
         Exception: If the given key_note is not a recognized note in key_notes.
 
